@@ -1,11 +1,10 @@
-<main class="w-full min-h-screen bg-white p-4 sm:p-6 lg:p-8">
+<main class="w-full min-h-screen bg-white p-4 sm:p-6 lg:p-8 relative">
   <h2 class="text-2xl font-bold text-gray-800 mb-6">
     Bienvenido, {{ dashboardData?.informacionUsuario?.nombre || 'Cliente' }}
   </h2>
 
   @if (isLoadingData) {
     <div class="text-center p-8 text-gray-500">
-
       <lucide-icon [img]="RefreshCcwIcon" [class.animate-spin]="isLoadingData" size="32"></lucide-icon>
       <p class="mt-2">Cargando datos del dashboard...</p>
     </div>
@@ -20,7 +19,6 @@
   } @else if (dashboardData) {
 
     <div class="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
-
       <div class="flex flex-col justify-between h-35 bg-[#fdd8d9] rounded-lg p-4 shadow-md">
         <div class="flex items-center justify-between">
           <span class="text-sm font-semibold text-gray-700">Saldo Consolidado</span>
@@ -30,7 +28,6 @@
         </div>
         <div class="flex items-end justify-between mt-4">
           <h2 class="text-3xl font-bold" [ngClass]="getSaldoClass(totalSaldoGlobal)">
-
             {{ totalSaldoGlobal | currency:'PEN':'S/. ':'1.2-2' }}
           </h2>
           <span class="text-xs text-gray-500">{{ totalCuentas }} cuentas</span>
@@ -65,15 +62,16 @@
     </div>
 
     <div class="w-full flex flex-col lg:flex-row gap-6">
+      
       <div class="flex flex-col flex-2">
         <div class="p-4 bg-[#fafafa] rounded-lg shadow-md h-full">
           <div class="flex justify-between items-center mb-4 border-b pb-2">
             <span class="font-bold text-lg text-gray-800 flex items-center gap-2">
-              <lucide-icon [img]="ListOrderedIcon" size="20"></lucide-icon> Movimientos Recientes (Top 5)
+              <lucide-icon [img]="ListOrderedIcon" size="20"></lucide-icon> Movimientos Recientes
             </span>
             <button
               (click)="loadData()"
-              class="flex gap-1 items-center bg-[#FE161D] hover:bg-red-700 hover:shadow-md hover:cursor-pointer text-sm py-2 px-4 text-white rounded-md transition ease-in-out">
+              class="flex gap-1 items-center bg-[#FE161D] hover:bg-red-700 hover:cursor-pointer text-sm py-2 px-4 text-white rounded-md transition ease-in-out">
               <lucide-icon [img]="RefreshCcwIcon" size="18"></lucide-icon>
               Actualizar
             </button>
@@ -93,7 +91,7 @@
                 @if (recentMovements.length === 0) {
                   <tr>
                     <td colspan="4" class="text-center py-4 text-gray-500">
-                      No hay movimientos recientes disponibles en sus cuentas.
+                      No hay movimientos recientes disponibles.
                     </td>
                   </tr>
                 } @else {
@@ -119,11 +117,19 @@
           </div>
         </div>
       </div>
+
       <div class="flex flex-col flex-1 gap-6">
+        
         <div class="w-full p-4 bg-[#fafafa] rounded-lg shadow-md">
-            <h3 class="font-bold text-lg text-gray-800 mb-3 border-b pb-2 flex items-center gap-2">
-                <lucide-icon [img]="FileTextIcon" size="20"></lucide-icon> Resumen de Cuentas
-            </h3>
+            <div class="flex justify-between items-center mb-3 border-b pb-2">
+                <h3 class="font-bold text-lg text-gray-800 flex items-center gap-2">
+                    <lucide-icon [img]="FileTextIcon" size="20"></lucide-icon> Mis Cuentas
+                </h3>
+                <button (click)="openCreateModal()" class="text-xs bg-gray-800 hover:bg-gray-700 text-white py-1 px-3 rounded flex items-center gap-1 transition">
+                    <lucide-icon [img]="PlusIcon" size="14"></lucide-icon> Nueva
+                </button>
+            </div>
+
             <div class="space-y-3">
                 @if (dashboardData.cuentas.length === 0) {
                     <p class="text-center py-3 text-gray-500 text-sm">No tienes cuentas activas.</p>
@@ -131,13 +137,13 @@
                     @for (cuenta of dashboardData.cuentas; track cuenta.idCuenta) {
                         <div class="p-3 border border-gray-200 rounded-lg bg-white hover:shadow-sm transition">
                             <div class="flex justify-between items-center text-sm font-semibold">
-                                <span>Cuenta {{ cuenta.tipo | lowercase }} #{{ cuenta.idCuenta }}</span>
+                                <span class="uppercase text-gray-700">{{ cuenta.tipo }} - {{ cuenta.idCuenta }}</span>
                                 <span class="font-bold" [ngClass]="getSaldoClass(cuenta.saldo)">
                                     {{ cuenta.saldo | currency:'PEN':'S/. ':'1.2-2' }}
                                 </span>
                             </div>
-                            <div class="text-xs text-gray-500 mt-1">
-                                Saldo disponible
+                            <div class="text-xs text-gray-500 mt-1 flex justify-between">
+                                <span>Saldo disponible</span>
                             </div>
                         </div>
                     }
@@ -147,24 +153,93 @@
 
         <div class="w-full flex flex-col items-start justify-start p-6 bg-[#FE161D] rounded-lg shadow-lg text-white">
            <h3 class="text-xl font-bold mb-4">Información de Usuario</h3>
-           <div class="text-sm space-y-2">
-              <div class="flex items-center gap-2">
+           <div class="text-sm space-y-3">
+              <div class="flex items-center gap-3">
                 <lucide-icon [img]="MailIcon" size="18"></lucide-icon>
-                <span>{{ dashboardData.informacionUsuario.correo }}</span>
+                <span class="opacity-90">{{ dashboardData.informacionUsuario.correo }}</span>
               </div>
-              <div class="flex items-center gap-2">
+              <div class="flex items-center gap-3">
                 <lucide-icon [img]="UserIcon" size="18"></lucide-icon>
-                <span>DNI: {{ dashboardData.informacionUsuario.dni }}</span>
+                <span class="opacity-90">DNI: {{ dashboardData.informacionUsuario.dni }}</span>
               </div>
-              <div class="flex items-center gap-2">
+              <div class="flex items-center gap-3">
                 <lucide-icon [img]="SmartphoneIcon" size="18"></lucide-icon>
-                <span>Teléfono: {{ dashboardData.informacionUsuario.telefono }}</span>
+                <span class="opacity-90">{{ dashboardData.informacionUsuario.telefono }}</span>
               </div>
-              <div class="flex items-center gap-2">
+              <div class="flex items-center gap-3">
                 <lucide-icon [img]="MapPinIcon" size="18"></lucide-icon>
-                <span>Dirección: {{ dashboardData.informacionUsuario.direccion }}</span>
+                <span class="opacity-90">{{ dashboardData.informacionUsuario.direccion }}</span>
               </div>
            </div>
+        </div>
+      </div>
+    </div>
+  }
+
+  @if (showCreateModal) {
+    <div class="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4 backdrop-blur-sm">
+      <div class="bg-white rounded-xl shadow-2xl w-full max-w-md overflow-hidden animate-fade-in-up">
+        <div class="bg-[#FE161D] p-4 flex justify-between items-center text-white">
+          <h3 class="font-bold text-lg flex items-center gap-2">
+            <lucide-icon [img]="WalletIcon" size="20"></lucide-icon> Abrir Nueva Cuenta
+          </h3>
+          <button (click)="closeCreateModal()" class="hover:bg-red-800 p-1 rounded-full transition">
+            <lucide-icon [img]="XIcon" size="20"></lucide-icon>
+          </button>
+        </div>
+
+        <div class="p-6">
+          <form [formGroup]="createAccountForm" (ngSubmit)="submitCreateAccount()">
+            
+            <div class="mb-5">
+              <label class="block text-sm font-semibold text-gray-700 mb-2">Tipo de Cuenta</label>
+              <div class="grid grid-cols-2 gap-4">
+                <label class="cursor-pointer relative">
+                  <input type="radio" formControlName="tipo" value="AHORRO" class="peer sr-only">
+                  <div class="text-center p-3 border-2 border-gray-200 rounded-lg peer-checked:bg-red-50 peer-checked:border-[#FE161D] peer-checked:text-[#FE161D] hover:bg-gray-50 transition">
+                    Ahorro
+                  </div>
+                </label>
+                <label class="cursor-pointer relative">
+                  <input type="radio" formControlName="tipo" value="CORRIENTE" class="peer sr-only">
+                  <div class="text-center p-3 border-2 border-gray-200 rounded-lg peer-checked:bg-red-50 peer-checked:border-[#FE161D] peer-checked:text-[#FE161D] hover:bg-gray-50 transition">
+                    Corriente
+                  </div>
+                </label>
+              </div>
+            </div>
+
+            <div class="mb-6">
+              <label class="block text-sm font-semibold text-gray-700 mb-2">Monto de Apertura</label>
+              <div class="relative">
+                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                  <span class="text-gray-500 font-bold">S/.</span>
+                </div>
+                <input 
+                  type="number" 
+                  formControlName="saldo" 
+                  class="w-full pl-10 p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#FE161D] focus:border-[#FE161D] outline-none transition"
+                  placeholder="0.00"
+                >
+              </div>
+              @if (createAccountForm.get('saldo')?.hasError('min')) {
+                <p class="text-red-500 text-xs mt-1">El monto no puede ser negativo.</p>
+              }
+            </div>
+
+            <button 
+              type="submit" 
+              [disabled]="createAccountForm.invalid || isCreating"
+              class="w-full bg-[#FE161D] hover:bg-red-700 text-white font-bold py-3 rounded-lg shadow-md transition disabled:opacity-50 disabled:cursor-not-allowed flex justify-center items-center gap-2"
+            >
+              @if (isCreating) {
+                <lucide-icon [img]="RefreshCcwIcon" class="animate-spin" size="20"></lucide-icon>
+                Procesando...
+              } @else {
+                Confirmar Apertura
+              }
+            </button>
+          </form>
         </div>
       </div>
     </div>

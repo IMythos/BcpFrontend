@@ -1,3 +1,97 @@
-<main class="w-full">
+<main class="w-full bg-gray-50 min-h-screen">
   <client-header></client-header>
+
+  <div class="container mx-auto px-4 py-8 max-w-2xl">
+    <div class="bg-white rounded-lg shadow-lg p-6">
+      
+      <h2 class="text-2xl font-bold text-orange-600 mb-6 flex items-center gap-2">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25" />
+        </svg>
+        <span>Libro de Reclamaciones</span>
+      </h2>
+
+      <p class="text-gray-600 mb-6">
+        Lamentamos los inconvenientes. Por favor, ingresa tu DNI y detalla tu reclamo para poder ayudarte.
+      </p>
+
+      <form [formGroup]="contactForm" (ngSubmit)="onSubmit()" class="space-y-4">
+        
+        <div>
+          <label for="dni" class="block text-sm font-medium text-gray-700 mb-1">DNI del Cliente</label>
+          <input 
+            id="dni" 
+            type="text" 
+            formControlName="dniCliente"
+            placeholder="Ingrese su DNI de 8 dígitos"
+            class="w-full p-2 border rounded-md focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none transition"
+            [class.border-red-500]="contactForm.get('dniCliente')?.invalid && contactForm.get('dniCliente')?.touched"
+          >
+          
+          @if (contactForm.get('dniCliente')?.invalid && contactForm.get('dniCliente')?.touched) {
+            <div class="text-red-500 text-xs mt-1">
+              @if (contactForm.get('dniCliente')?.errors?.['required']) {
+                <span>El DNI es obligatorio.</span>
+              }
+              @if (contactForm.get('dniCliente')?.errors?.['pattern']) {
+                <span>El DNI debe tener 8 dígitos numéricos.</span>
+              }
+            </div>
+          }
+        </div>
+
+        <div>
+          <label for="descripcion" class="block text-sm font-medium text-gray-700 mb-1">Detalle del Reclamo</label>
+          <textarea 
+            id="descripcion" 
+            formControlName="descripcion"
+            rows="5" 
+            placeholder="Describa su problema con al menos 10 caracteres..."
+            class="w-full p-2 border rounded-md focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none transition"
+            [class.border-red-500]="contactForm.get('descripcion')?.invalid && contactForm.get('descripcion')?.touched"
+          ></textarea>
+
+          @if (contactForm.get('descripcion')?.invalid && contactForm.get('descripcion')?.touched) {
+            <div class="text-red-500 text-xs mt-1">
+              @if (contactForm.get('descripcion')?.errors?.['required']) {
+                <span>La descripción es obligatoria.</span>
+              }
+              @if (contactForm.get('descripcion')?.errors?.['minlength']) {
+                <span>La descripción debe tener al menos 10 caracteres.</span>
+              }
+            </div>
+          }
+        </div>
+
+        @if (successMessage) {
+          <div class="p-3 bg-green-100 text-green-700 rounded-md text-sm border border-green-200">
+            {{ successMessage }}
+          </div>
+        }
+
+        @if (errorMessage) {
+          <div class="p-3 bg-red-100 text-red-700 rounded-md text-sm border border-red-200">
+            {{ errorMessage }}
+          </div>
+        }
+
+        <button 
+          type="submit" 
+          [disabled]="contactForm.invalid || isLoading"
+          class="w-full bg-orange-600 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded-md transition duration-300 disabled:opacity-50 disabled:cursor-not-allowed flex justify-center items-center"
+        >
+          @if (isLoading) {
+            <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+              <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+              <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+            </svg>
+            Enviando...
+          } @else {
+            Enviar Reclamo
+          }
+        </button>
+
+      </form>
+    </div>
+  </div>
 </main>
