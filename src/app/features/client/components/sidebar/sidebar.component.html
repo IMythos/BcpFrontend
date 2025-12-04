@@ -1,0 +1,27 @@
+<aside class="w-75 bg-white border-r border-r-[#ededed] min-h-screen p-6">
+  <div class="w-full h-15 flex items-center">
+    <div class="w-13 h-12 bg-[#002A8D] flex items-center justify-center rounded-lg">
+      <span class="text-white text-2xl font-bold">AD</span>
+    </div>
+    <div class="flex flex-col p-2 ml-1">
+      <span class="text-sm">{{ role }}</span>
+      <span class="text-xs text-gray-500">{{ username() }}</span>
+    </div>
+  </div>
+  <nav class="w-full min-h-[700px] mt-5 flex flex-col justify-between">
+    <ul>
+      @for (item of menuItems(); track item.id) {
+        <li (click)="select(item.component)" class="flex items-center gap-3 text-sm text-[#5f5f5f] hover:bg-[#ffa733] rounded-lg py-3 px-4 mb-3 hover:text-white hover:cursor-pointer transition ease-in-out">
+          <lucide-icon [img]="item.icon" size="18"></lucide-icon>
+          {{ item.label }}
+        </li>
+      }
+    </ul>
+    <div>
+      <button (click)="logout()" class="flex items-center gap-3 text-sm bg-gray-300 hover:cursor-pointer hover:bg-gray-200 py-3 px-4 w-full rounded-lg transition ease-in-out">
+        <lucide-icon [img]="LogOutIcon" size="18"></lucide-icon>
+        Cerrar Sesion
+      </button>
+    </div>
+  </nav>
+</aside>

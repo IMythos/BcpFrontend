@@ -1,0 +1,244 @@
+<main class="w-full">
+
+  <!-- Seccion de header -->
+  <client-header></client-header>
+
+  <!-- Seccion de header -->
+  <client-banner></client-banner>
+
+  <!-- Seccion de beneficios -->
+  <section class="w-full flex justify-center px-4 sm:px-6 lg:px-8 py-8 md:py-12">
+    <div class="w-full flex flex-col max-w-[1120px]">
+      <div class="flex justify-center items-center flex-col py-6 md:py-10 text-center">
+        <h2 class="text-2xl md:text-3xl font-semibold text-[#002A8D] mb-2 leading-tight">
+          ¡Ahorrar con nosotros, tu otro banco, es super fácil!
+        </h2>
+        <span class="text-lg md:text-xl text-[#4a4a4a]">
+          Elige el producto que vaya contigo
+        </span>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-10">
+        <div
+          class="flex flex-col items-center pt-8 pb-6 px-6 bg-[#F4F6F9] border border-[#ececec] rounded-2xl h-full hover:shadow-lg transition-shadow duration-300">
+          <figure class="mb-4 h-16 flex items-center justify-center">
+            <img src="assets/images/card-soles.svg" alt="Icono Soles" class="max-h-full" />
+          </figure>
+          <div class="flex flex-col grow items-center w-full">
+            <h3 class="text-[#0f265c] text-lg text-center font-semibold mb-1 leading-snug">
+              Cuenta de Ahorro Preferente Soles
+            </h3>
+            <span class="text-center text-[#747373] mt-2 text-sm md:text-base">
+              Gana 4.00% TREA soles.
+            </span>
+            <button class="mt-auto w-full md:w-auto flex items-center justify-center pt-4 md:pt-6">
+              <div
+                class="w-full flex items-center justify-center gap-1 border border-[#FF7800] bg-[#FF7800] hover:bg-[#ffa733] hover:border-[#ffa733] hover:cursor-pointer py-3 px-6 rounded-sm transition ease-linear hover:shadow-md">
+                <span class="text-sm font-medium text-white whitespace-nowrap">Abre tu cuenta</span>
+              </div>
+            </button>
+          </div>
+        </div>
+        <div
+          class="flex flex-col items-center pt-8 pb-6 px-6 bg-[#F4F6F9] border border-[#ececec] rounded-2xl h-full hover:shadow-lg transition-shadow duration-300">
+          <figure class="mb-4 h-16 flex items-center justify-center">
+            <img src="assets/images/card-soles.svg" alt="Icono Dolares" class="max-h-full" />
+          </figure>
+          <div class="flex flex-col grow items-center w-full">
+            <h3 class="text-[#0f265c] text-lg text-center font-semibold mb-1 leading-snug">
+              Cuenta de Ahorro Preferente Dólares
+            </h3>
+            <span class="text-center text-[#747373] mt-2 text-sm md:text-base">
+              Gana 2.25% TREA soles.
+            </span>
+            <button class="mt-auto w-full md:w-auto flex items-center justify-center pt-4 md:pt-6">
+              <div
+                class="w-full flex items-center justify-center gap-1 border border-[#FF7800] bg-[#FF7800] hover:bg-[#ffa733] hover:border-[#ffa733] hover:cursor-pointer py-3 px-6 rounded-sm transition ease-linear hover:shadow-md">
+                <span class="text-sm font-medium text-white whitespace-nowrap">Abre tu cuenta</span>
+              </div>
+            </button>
+          </div>
+        </div>
+        <div
+          class="flex flex-col items-center pt-8 pb-6 px-6 bg-[#F4F6F9] border border-[#ececec] rounded-2xl h-full hover:shadow-lg transition-shadow duration-300">
+          <figure class="mb-4 h-16 flex items-center justify-center">
+            <img src="assets/images/card-soles.svg" alt="Icono Plazo Fijo" class="max-h-full" />
+          </figure>
+          <div class="flex flex-col grow items-center w-full">
+            <h3 class="text-[#0f265c] text-lg text-center font-semibold mb-1 leading-snug">
+              Depósito a Plazo Fijo
+            </h3>
+            <span class="text-center text-[#747373] mt-2 text-sm md:text-base">
+              Respalda tu futuro desde hoy abriendo tu Depósito a Plazo Fijo.
+            </span>
+            <button class="mt-auto w-full md:w-auto flex items-center justify-center pt-4 md:pt-6">
+              <div
+                class="w-full flex items-center justify-center gap-1 border border-[#FF7800] bg-[#FF7800] hover:bg-[#ffa733] hover:border-[#ffa733] hover:cursor-pointer py-3 px-6 rounded-sm transition ease-linear hover:shadow-md">
+                <span class="text-sm font-medium text-white whitespace-nowrap">Abre tu cuenta</span>
+              </div>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Seccion de banner app -->
+  <section
+    class="w-full flex justify-center bg-[url(/assets/images/fondo-desk.png)] bg-cover bg-center bg-no-repeat py-8 my-8 md:my-15">
+    <div class="w-full max-w-[1120px] px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center">
+      <div
+        class="w-full md:w-3/5 py-8 md:py-10 md:pr-10 lg:pr-20 flex flex-col items-center md:items-start text-center md:text-left">
+        <h2 class="mb-6 text-2xl md:text-3xl lg:text-[32px] text-[#0f265c] font-semibold leading-tight">
+          Gestiona tu dinero fácilmente desde nuestra APP.
+        </h2>
+        <div class="space-y-4 w-full">
+          <p class="flex items-start md:items-center gap-3 justify-center md:justify-start">
+            <lucide-icon class="shrink-0 mt-1 md:mt-0" [img]="CheckIcon" strokeWidth="3"></lucide-icon>
+            <span>Abre tu Cuenta Preferente o Depósito a Plazo Fijo 100% digital.</span>
+          </p>
+          <p class="flex items-start md:items-center gap-3 justify-center md:justify-start">
+            <lucide-icon class="shrink-0 mt-1 md:mt-0" [img]="CheckIcon" strokeWidth="3"></lucide-icon>
+            <span>Accede a un Tipo de Cambio Exclusivo desde tu APP.</span>
+          </p>
+          <p class="flex items-start md:items-center gap-3 justify-center md:justify-start">
+            <lucide-icon class="shrink-0 mt-1 md:mt-0" [img]="CheckIcon" strokeWidth="3"></lucide-icon>
+            <span>Recibe y envía dinero solo con el número de celular.</span>
+          </p>
+          <p class="flex items-start md:items-center gap-3 justify-center md:justify-start">
+            <lucide-icon class="shrink-0 mt-1 md:mt-0" [img]="CheckIcon" strokeWidth="3"></lucide-icon>
+            <span>Conoce todas las funcionalidades de tu APP.</span>
+          </p>
+        </div>
+        <button
+          class="flex items-center justify-center mt-8 gap-1 border border-[#FF7800] bg-[#FF7800] hover:bg-[#ffa733] hover:border-[#ffa733] hover:cursor-pointer py-3 px-8 rounded-sm transition ease-linear hover:shadow-md w-full sm:w-auto">
+          <span class="text-sm font-medium text-white">Descarga la App</span>
+        </button>
+      </div>
+      <div class="w-full md:w-2/5 flex justify-center mt-8 md:mt-0">
+        <figure class="w-3/4 md:w-full max-w-xs md:max-w-none">
+          <img class="w-full h-auto object-contain" src="assets/images/phone-app.png"
+            alt="Vista previa de la aplicación móvil" />
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!--Seccion de slider (Noticias)-->
+  <section class="w-full flex justify-center px-4 sm:px-6 lg:px-8 py-8 md:py-12">
+    <div class="w-full flex flex-col max-w-[1120px]">
+      <div class="flex flex-col sm:flex-row">
+        <div class="flex flex-col flex-1">
+          <h2 class="text-4xl text-[#0f265c] font-semibold mb-4">Finanzas en simple</h2>
+          <p class="text-4xl leading-12 text-[#6f7d9d] mb-20 pr-40">El espacio donde hablamos claro sobre el ahorro y
+            bienestar financiero,
+            para que manejes tu dinero con confianza.</p>
+          <div class="flex gap-8">
+            <button (click)="handlePrev()"
+              class="bg-[#f4f6f9] text-white p-4 rounded-full hover:bg-blue-700 transition transform hover:scale-105 focus:outline-none">
+              <lucide-icon [img]="ChevronLeftIcon" color="#000000" size="18"></lucide-icon>
+            </button>
+            <button (click)="handleNext()"
+              class="bg-[#f4f6f9] text-white p-4 rounded-full hover:bg-blue-700 transition transform hover:scale-105 focus:outline-none">
+              <lucide-icon [img]="ChevronRightIcon" color="#000000" size="18"></lucide-icon>
+            </button>
+          </div>
+        </div>
+        <!--Slider-->
+        <div class="max-w-[504px] flex-1">
+          <slider [slides]="sliderData" [currentIndex]="currentSlideIndex"></slider>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Seccion de footer -->
+  <section class="w-full flex justify-center px-4 sm:px-6 lg:px-8 py-8 md:py-12 mt-15">
+    <footer class="bg-white text-gray-700 w-full flex max-w-[1120px]">
+      <div class="max-w-[1120px] mx-auto">
+
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-8 lg:gap-16 pb-8">
+
+          <div>
+            <h4 class="text-lg font-semibold text-[#0f265c] mb-4">Somos</h4>
+            <ul class="space-y-2 text-sm">
+              <li><a href="#" class="hover:text-blue-600 transition">Nuestra historia</a></li>
+              <li><a href="#" class="hover:text-blue-600 transition">Accionista y Gobierno Corporativo</a></li>
+              <li><a href="#" class="hover:text-blue-600 transition">Trabajo con nosotros</a></li>
+              <li><a href="#" class="hover:text-blue-600 transition">Información Financiera</a></li>
+            </ul>
+          </div>
+
+          <div>
+            <h4 class="text-lg font-semibold text-[#0f265c] mb-4">Conoce más</h4>
+            <ul class="space-y-2 text-sm">
+              <li><a href="#" class="hover:text-blue-600 transition">Promociones</a></li>
+              <li><a href="#" class="hover:text-blue-600 transition">Venta de adjudicados</a></li>
+              <li><a href="#" class="hover:text-blue-600 transition">Servicios Notariales</a></li>
+              <li><a href="#" class="hover:text-blue-600 transition">Productos No Vigentes</a></li>
+            </ul>
+          </div>
+
+          <div>
+            <h4 class="text-lg font-semibold text-[#0f265c] mb-4">Contáctanos</h4>
+            <div class="space-y-3 text-sm">
+              <p class="text-gray-900">01 612-2222 (Lima)</p>
+              <p class="text-gray-900">0-801-00222 (Provincia)</p>
+
+              <a href="#"
+                class="inline-flex items-center justify-center border border-gray-400 rounded-full py-2 px-4 mt-2 text-gray-800 hover:bg-gray-50 transition">
+                <span class="mr-2">💬</span> Chatea por Whatsapp
+              </a>
+            </div>
+          </div>
+
+          <div>
+            <h4 class="text-lg font-semibold text-[#0f265c] mb-4">Síguenos</h4>
+
+            <div class="flex space-x-3 mb-6">
+              <a href="#"
+                class="w-9 h-9 bg-[#0f265c] rounded-full flex items-center justify-center hover:bg-blue-600 transition">
+                <span class="text-white text-lg">f</span> </a>
+              <a href="#"
+                class="w-9 h-9 bg-[#0f265c] rounded-full flex items-center justify-center hover:bg-blue-600 transition">
+                <span class="text-white text-lg">📸</span> </a>
+              <a href="#"
+                class="w-9 h-9 bg-[#0f265c] rounded-full flex items-center justify-center hover:bg-blue-600 transition">
+                <span class="text-white text-lg">in</span> </a>
+              <a href="#"
+                class="w-9 h-9 bg-[#0f265c] rounded-full flex items-center justify-center hover:bg-blue-600 transition">
+                <span class="text-white text-lg">🎶</span> </a>
+            </div>
+
+            <div class="flex items-center space-x-4">
+              <img src="assets/images/logo-compromiso.svg" alt="Compromiso" class="h-12 w-auto">
+              <img src="assets/images/libro-reclamaciones.png" alt="Libro de Reclamaciones" class="h-12 w-auto">
+            </div>
+          </div>
+        </div>
+
+        <div class="border-t border-gray-300 my-6"></div>
+
+        <div class="flex flex-col md:flex-row justify-between items-center text-sm">
+
+          <nav class="flex flex-wrap space-x-4 mb-4 md:mb-0 text-gray-800 font-medium">
+            <a href="#" class="hover:text-blue-600 transition">Tasas y tarifas</a>
+            <a href="#" class="hover:text-blue-600 transition">Protección de Datos Personales</a>
+            <a href="#" class="hover:text-blue-600 transition">Información Legal</a>
+            <a href="#" class="hover:text-blue-600 transition">Servicio al cliente</a>
+            <a href="#" class="hover:text-blue-600 transition">Políticas del Banco Pichincha</a>
+          </nav>
+
+          <p class="text-xs text-gray-500">
+            © 2025 Banco Pichincha. All rights reserved.
+          </p>
+        </div>
+      </div>
+    </footer>
+
+    <div class="fixed bottom-6 right-6 z-50">
+      <button
+        class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center shadow-lg hover:bg-blue-200 transition">
+        <span class="text-xl text-blue-800">📞</span> </button>
+    </div>
+  </section>
+</main>

@@ -1,0 +1,10 @@
+<main class="flex">
+  <app-sidebar (selectComponent)="onSelect($event)"></app-sidebar>
+  <main class="flex-1 h-screen overflow-y-auto">
+    @if (selectComponent()) {
+      <ng-container *ngComponentOutlet="selectComponent()"></ng-container>
+    } @else {
+      <app-dashboard-home></app-dashboard-home>
+    }
+  </main>
+</main>

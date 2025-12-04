@@ -1,0 +1,84 @@
+<div class="min-h-screen flex justify-center">
+  <div class="w-full lg:w-3/5 flex items-center justify-center p-6 sm:p-12 lg:p-20">
+    <div class="max-w-md w-full space-y-8">
+      <a routerLink=""
+        class="text-gray-500 hover:text-gray-700 transition flex items-center gap-1 text-sm cursor-pointer">
+        <lucide-icon [img]="ArrowRightIcon" strokeWidth="1"></lucide-icon>
+        Ir al Inicio
+      </a>
+      <h1 class="text-3xl font-bold text-gray-900 mt-6">Iniciar Sesión</h1>
+      <p class="text-[14px] text-gray-600 -mt-6">Ingrese sus credenciales de acceso como cliente</p>
+      <form class="space-y-4" [formGroup]="loginForm" (ngSubmit)="onLogin()">
+
+        <!-- Campo de Tipo de Usuario (No Editable) -->
+        <div>
+          <label for="tipoUsuario" class="block text-sm font-medium text-gray-700">Tipo de Usuario</label>
+          <!-- Usamos 'readonly' para que el valor se envíe pero no se pueda editar -->
+          <input type="text" id="tipoUsuario" formControlName="tipoUsuario" readonly
+            class="mt-1 w-full px-4 py-3 border border-gray-300 rounded-lg placeholder-gray-400 bg-gray-100 text-gray-500 cursor-not-allowed">
+        </div>
+
+        <!-- Campo Nombre (Username) -->
+        <div>
+          <label for="nombre" class="block text-sm font-medium text-gray-700">Username *</label>
+          <input type="text" id="nombre" placeholder="pepe123" formControlName="nombre"
+            class="mt-1 w-full px-4 py-3 border border-gray-300 rounded-lg placeholder-gray-400 focus:ring-[#FE161D] focus:border-[#FE161D]">
+          @if (loginForm.get('nombre')?.invalid && loginForm.get('nombre')?.touched) {
+            <p class="mt-1 text-sm text-red-600">
+              @if (loginForm.get('nombre')?.errors?.['required']) {
+                El nombre es obligatorio.
+              } @else {
+                <!-- SE ELIMINA LA COMPROBACIÓN DE 'email' PARA COINCIDIR CON EL VALIDADOR TS -->
+                El nombre de usuario es inválido.
+              }
+            </p>
+          }
+        </div>
+
+        <!-- Campo Contraseña -->
+        <div>
+          <label for="contrasena" class="block text-sm font-medium text-gray-700">Password *</label>
+          <input type="password" id="contrasena" placeholder="Mínimo de 5 caracteres" formControlName="contrasena"
+            class="mt-1 w-full px-4 py-3 border border-gray-300 rounded-lg placeholder-gray-400 focus:ring-[#FE161D] focus:border-[#FE161D]">
+          <p class="mt-1 text-xs text-gray-500">Mínimo de 5 caracteres</p>
+          @if (loginForm.get('contrasena')?.invalid && loginForm.get('contrasena')?.touched) {
+          <p class="mt-1 text-sm text-red-600">
+            @if (loginForm.get('contrasena')?.errors?.['required']) {
+              La contraseña es obligatoria.
+            } @else if (loginForm.get('contrasena')?.errors?.['minlength']) {
+              La contraseña debe tener al menos 5 caracteres.
+            }
+          </p>
+          }
+        </div>
+
+        <button type="submit" [disabled]="loginForm.invalid || isSpinning()"
+          class="w-full flex items-center justify-center p-3 text-white bg-[#FE161D] font-semibold rounded-lg hover:bg-red-700 transition duration-300 shadow-lg disabled:bg-red-300 disabled:cursor-not-allowed">
+          @if (isSpinning()) {
+            <app-spinner class="mr-2"></app-spinner>
+            Iniciando Sesión...
+          } @else {
+            Iniciar Sesión
+          }
+        </button>
+      </form>
+      @if (errorMessage) {
+        <div class="p-3 bg-red-100 border border-red-400 text-red-700 rounded-lg text-sm" role="alert">
+          {{ errorMessage }}
+        </div>
+      }
+      <div class="text-center pt-2">
+        <p class="text-sm text-gray-600">
+          ¿No estás registrado?
+          <a (click)="goToRegister()" class="text-[#FE161D] font-semibold hover:text-red-700 transition cursor-pointer">
+            Crea una cuenta aquí
+          </a>
+        </p>
+      </div>
+      <div class="text-center text-xs text-gray-400 pt-10">
+        <p>© 2025. Banco de Crédito del Perú. Todos los derechos reservados</p>
+      </div>
+    </div>
+  </div>
+</div>
+<app-spinner></app-spinner>

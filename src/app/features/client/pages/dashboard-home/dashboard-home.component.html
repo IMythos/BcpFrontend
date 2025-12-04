@@ -1,0 +1,172 @@
+<main class="w-full min-h-screen bg-white p-4 sm:p-6 lg:p-8">
+  <h2 class="text-2xl font-bold text-gray-800 mb-6">
+    Bienvenido, {{ dashboardData?.informacionUsuario?.nombre || 'Cliente' }}
+  </h2>
+
+  @if (isLoadingData) {
+    <div class="text-center p-8 text-gray-500">
+
+      <lucide-icon [img]="RefreshCcwIcon" [class.animate-spin]="isLoadingData" size="32"></lucide-icon>
+      <p class="mt-2">Cargando datos del dashboard...</p>
+    </div>
+  } @else if (loadingError) {
+    <div class="p-4 bg-red-100 border-l-4 border-red-500 text-red-700 rounded-lg" role="alert">
+      <p class="font-bold">Error de Carga</p>
+      <p>{{ loadingError }}</p>
+      <button (click)="loadData()" class="mt-2 text-sm font-semibold hover:underline flex items-center gap-1">
+        <lucide-icon [img]="RefreshCcwIcon" size="14"></lucide-icon> Reintentar
+      </button>
+    </div>
+  } @else if (dashboardData) {
+
+    <div class="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+
+      <div class="flex flex-col justify-between h-35 bg-[#fdd8d9] rounded-lg p-4 shadow-md">
+        <div class="flex items-center justify-between">
+          <span class="text-sm font-semibold text-gray-700">Saldo Consolidado</span>
+          <div class="w-10 h-10 bg-[#FE161D] rounded-full flex items-center justify-center shadow-lg">
+            <lucide-icon [img]="WalletIcon" size="20" color="#fafafa"></lucide-icon>
+          </div>
+        </div>
+        <div class="flex items-end justify-between mt-4">
+          <h2 class="text-3xl font-bold" [ngClass]="getSaldoClass(totalSaldoGlobal)">
+
+            {{ totalSaldoGlobal | currency:'PEN':'S/. ':'1.2-2' }}
+          </h2>
+          <span class="text-xs text-gray-500">{{ totalCuentas }} cuentas</span>
+        </div>
+      </div>
+
+      <div class="flex flex-col justify-between h-35 bg-[#fafafa] rounded-lg p-4 shadow-md border">
+        <div class="flex items-center justify-between">
+          <span class="text-sm font-semibold text-gray-700">Cuentas Activas</span>
+          <div class="w-10 h-10 bg-[#777777] rounded-full flex items-center justify-center shadow-lg">
+            <lucide-icon [img]="LandmarkIcon" size="20" color="#fafafa"></lucide-icon>
+          </div>
+        </div>
+        <div class="flex items-end justify-between mt-4">
+          <h2 class="text-3xl font-bold text-gray-900">{{ totalCuentas }}</h2>
+          <span class="text-sm text-gray-500">Tipos: Ahorro/Corriente</span>
+        </div>
+      </div>
+
+      <div class="flex flex-col justify-between h-35 bg-[#fafafa] rounded-lg p-4 shadow-md border">
+        <div class="flex items-center justify-between">
+          <span class="text-sm font-semibold text-gray-700">Pagos Pendientes</span>
+          <div class="w-10 h-10 bg-[#777777] rounded-full flex items-center justify-center shadow-lg">
+            <lucide-icon [img]="ClockIcon" size="20" color="#fafafa"></lucide-icon>
+          </div>
+        </div>
+        <div class="flex items-end justify-between mt-4">
+          <h2 class="text-3xl font-bold text-[#FE161D]">{{ totalPagosPendientes }}</h2>
+          <span class="text-sm text-gray-500">Servicios por vencer</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="w-full flex flex-col lg:flex-row gap-6">
+      <div class="flex flex-col flex-2">
+        <div class="p-4 bg-[#fafafa] rounded-lg shadow-md h-full">
+          <div class="flex justify-between items-center mb-4 border-b pb-2">
+            <span class="font-bold text-lg text-gray-800 flex items-center gap-2">
+              <lucide-icon [img]="ListOrderedIcon" size="20"></lucide-icon> Movimientos Recientes (Top 5)
+            </span>
+            <button
+              (click)="loadData()"
+              class="flex gap-1 items-center bg-[#FE161D] hover:bg-red-700 hover:shadow-md hover:cursor-pointer text-sm py-2 px-4 text-white rounded-md transition ease-in-out">
+              <lucide-icon [img]="RefreshCcwIcon" size="18"></lucide-icon>
+              Actualizar
+            </button>
+          </div>
+
+          <div class="overflow-x-auto w-full min-w-0 text-sm rounded-lg text-left">
+            <table class="w-full table-auto border-collapse">
+              <thead>
+                <tr class="text-gray-800 bg-[#fdd8d9] text-left">
+                  <th class="py-3 pr-2 pl-6">ID Mov.</th>
+                  <th class="p-3">Tipo</th>
+                  <th class="p-3">Fecha</th>
+                  <th class="p-3 text-right pr-6">Monto</th>
+                </tr>
+              </thead>
+              <tbody>
+                @if (recentMovements.length === 0) {
+                  <tr>
+                    <td colspan="4" class="text-center py-4 text-gray-500">
+                      No hay movimientos recientes disponibles en sus cuentas.
+                    </td>
+                  </tr>
+                } @else {
+                  @for (mov of recentMovements; track mov.id) {
+                    <tr class="border-b border-gray-200 hover:bg-gray-100 text-left transition-colors">
+                      <td class="py-2 pr-2 pl-6">{{ mov.id }}</td>
+                      <td class="p-3">
+                        <span [class.bg-green-100]="mov.tipo === 'CREDITO'" [class.text-green-800]="mov.tipo === 'CREDITO'"
+                              [class.bg-red-100]="mov.tipo === 'DEBITO'" [class.text-red-800]="mov.tipo === 'DEBITO'"
+                              class="text-xs font-medium me-2 px-2.5 py-0.5 rounded capitalize">
+                          {{ mov.tipo | lowercase }}
+                        </span>
+                      </td>
+                      <td class="p-3">{{ mov.fecha | date:'dd/MM/yyyy h:mm a' }}</td>
+                      <td class="p-3 font-bold text-right pr-6" [ngClass]="getMovimientoColor(mov.tipo, mov.monto)">
+                        {{ mov.monto | currency:'PEN':'S/. ':'1.2-2' }}
+                      </td>
+                    </tr>
+                  }
+                }
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="flex flex-col flex-1 gap-6">
+        <div class="w-full p-4 bg-[#fafafa] rounded-lg shadow-md">
+            <h3 class="font-bold text-lg text-gray-800 mb-3 border-b pb-2 flex items-center gap-2">
+                <lucide-icon [img]="FileTextIcon" size="20"></lucide-icon> Resumen de Cuentas
+            </h3>
+            <div class="space-y-3">
+                @if (dashboardData.cuentas.length === 0) {
+                    <p class="text-center py-3 text-gray-500 text-sm">No tienes cuentas activas.</p>
+                } @else {
+                    @for (cuenta of dashboardData.cuentas; track cuenta.idCuenta) {
+                        <div class="p-3 border border-gray-200 rounded-lg bg-white hover:shadow-sm transition">
+                            <div class="flex justify-between items-center text-sm font-semibold">
+                                <span>Cuenta {{ cuenta.tipo | lowercase }} #{{ cuenta.idCuenta }}</span>
+                                <span class="font-bold" [ngClass]="getSaldoClass(cuenta.saldo)">
+                                    {{ cuenta.saldo | currency:'PEN':'S/. ':'1.2-2' }}
+                                </span>
+                            </div>
+                            <div class="text-xs text-gray-500 mt-1">
+                                Saldo disponible
+                            </div>
+                        </div>
+                    }
+                }
+            </div>
+        </div>
+
+        <div class="w-full flex flex-col items-start justify-start p-6 bg-[#FE161D] rounded-lg shadow-lg text-white">
+           <h3 class="text-xl font-bold mb-4">Información de Usuario</h3>
+           <div class="text-sm space-y-2">
+              <div class="flex items-center gap-2">
+                <lucide-icon [img]="MailIcon" size="18"></lucide-icon>
+                <span>{{ dashboardData.informacionUsuario.correo }}</span>
+              </div>
+              <div class="flex items-center gap-2">
+                <lucide-icon [img]="UserIcon" size="18"></lucide-icon>
+                <span>DNI: {{ dashboardData.informacionUsuario.dni }}</span>
+              </div>
+              <div class="flex items-center gap-2">
+                <lucide-icon [img]="SmartphoneIcon" size="18"></lucide-icon>
+                <span>Teléfono: {{ dashboardData.informacionUsuario.telefono }}</span>
+              </div>
+              <div class="flex items-center gap-2">
+                <lucide-icon [img]="MapPinIcon" size="18"></lucide-icon>
+                <span>Dirección: {{ dashboardData.informacionUsuario.direccion }}</span>
+              </div>
+           </div>
+        </div>
+      </div>
+    </div>
+  }
+</main>

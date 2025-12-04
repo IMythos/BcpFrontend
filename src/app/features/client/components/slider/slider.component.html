@@ -1,0 +1,23 @@
+<div class="relative w-full overflow-hidden">
+  <div class="flex transition-transform duration-500 ease-in-out"
+    [style.transform]="'translateX(-' + currentIndex * 100 + '%)'">
+
+    @for (slide of slides; track slide.url) {
+    <div class="min-w-[320px] max-h-[480px] mr-10">
+      <div class="p-8 flex flex-col bg-[#f4f6f9] w-[320px] h-full rounded-2xl border border-[#ececec]">
+        <figure class="h-52">
+          <img [src]="slide.url" [alt]="slide.title" class="w-full h-full object-cover" />
+        </figure>
+        <div class="p-4">
+          <h3 class="text-lg font-semibold mb-2 text-ellipsis line-clamp-2">{{ slide.title }}</h3>
+          <p class="text-gray-600 text-ellipsis line-clamp-2">{{ slide.description }}</p>
+        </div>
+        <button
+          class="flex items-center justify-center mt-4 gap-1 border border-[#FF7800] bg-[#FF7800] hover:bg-[#ffa733] hover:border-[#ffa733] hover:cursor-pointer py-3 px-8 rounded-sm transition ease-linear hover:shadow-md w-full sm:w-auto">
+          <span class="text-sm font-medium text-white">Ver mas</span>
+        </button>
+      </div>
+    </div>
+    }
+  </div>
+</div>
