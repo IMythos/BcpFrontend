@@ -1,0 +1,90 @@
+<div class="w-full bg-white rounded-xl shadow-lg overflow-hidden min-h-[600px] animate-fade-in-up">
+  <div class="bg-gray-800 p-6 text-white">
+    <button
+      (click)="returnToDashboard()"
+      class="flex items-center gap-2 text-gray-300 hover:text-white transition mb-4"
+    >
+      <lucide-icon [img]="ArrowLeftIcon" size="20"></lucide-icon> Volver al Resumen
+    </button>
+
+    @if (isLoading) {
+    <div class="animate-pulse space-y-4">
+      <div class="h-8 bg-gray-700 rounded w-1/3"></div>
+      <div class="h-10 bg-gray-700 rounded w-1/4"></div>
+    </div>
+    } @else if (accountData) {
+    <div class="flex justify-between items-end">
+      <div>
+        <p class="text-gray-400 uppercase text-xs font-bold tracking-wider mb-1">
+          Cuenta {{ accountData.tipo }}
+        </p>
+        <h2 class="text-4xl font-bold">
+          {{ accountData.saldo | currency : 'PEN' : 'S/. ' : '1.2-2' }}
+        </h2>
+        <p class="text-sm text-gray-400 mt-1">Saldo Disponible</p>
+      </div>
+      <div class="text-right">
+        <p class="text-sm text-gray-400">Número de Cuenta</p>
+        <p class="font-mono text-xl">{{ accountData.idCuenta }}</p>
+      </div>
+    </div>
+    }
+  </div>
+
+  <div class="p-4 border-b bg-gray-50 flex justify-between items-center">
+    <h3 class="font-bold text-gray-700">Movimientos Históricos</h3>
+    <button
+      class="flex items-center gap-2 text-sm text-blue-600 hover:bg-blue-50 px-3 py-2 rounded transition"
+    >
+      <lucide-icon [img]="DownloadIcon" size="16"></lucide-icon> Descargar Estado
+    </button>
+  </div>
+
+  <div class="overflow-x-auto">
+    <table class="w-full text-left border-collapse">
+      <thead class="bg-gray-100 text-gray-600 text-xs uppercase font-bold">
+        <tr>
+          <th class="p-4">Fecha</th>
+          <th class="p-4">Descripción / ID</th>
+          <th class="p-4 text-center">Tipo</th>
+          <th class="p-4 text-right">Monto</th>
+        </tr>
+      </thead>
+      <tbody class="text-sm text-gray-700">
+        @if (isLoading) {
+        <tr>
+          <td colspan="4" class="p-8 text-center">Cargando movimientos...</td>
+        </tr>
+        } @else if (movements.length === 0) {
+        <tr>
+          <td colspan="4" class="p-8 text-center text-gray-500">
+            Esta cuenta no tiene movimientos registrados.
+          </td>
+        </tr>
+        } @else { @for (mov of movements; track mov.id) {
+        <tr class="border-b hover:bg-gray-50 transition">
+          <td class="p-4">{{ mov.fecha | date : 'dd MMM yyyy, h:mm a' }}</td>
+          <td class="p-4">
+            <div class="font-medium text-gray-900">Operación #{{ mov.id }}</div>
+            <div class="text-xs text-gray-500">Transacción BCP</div>
+          </td>
+          <td class="p-4 text-center">
+            <span
+              [class.bg-red-100]="mov.tipo === 'DEBITO'"
+              [class.text-red-800]="mov.tipo === 'DEBITO'"
+              [class.bg-green-100]="mov.tipo === 'CREDITO'"
+              [class.text-green-800]="mov.tipo === 'CREDITO'"
+              class="px-2 py-1 rounded text-xs font-bold"
+            >
+              {{ mov.tipo }}
+            </span>
+          </td>
+          <td class="p-4 text-right font-mono font-bold" [ngClass]="getMovimientoColor(mov.tipo)">
+            {{ getMovimientoSigno(mov.tipo) }} {{ mov.monto | currency : 'PEN' : 'S/. ' }}
+          </td>
+        </tr>
+        } }
+      </tbody>
+    </table>
+  </div>
+</div>

@@ -1,12 +1,13 @@
 import { Component, inject } from '@angular/core';
 import { HeaderComponent } from "../../../../shared/components/header/header.component";
 import { CrearReclamoRequest } from '../../../../models/interfaces/request/crear-reclamo-request.interface';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ReclamoService } from '../../../../core/services/reclamo.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-contact',
-  imports: [HeaderComponent],
+  imports: [HeaderComponent,ReactiveFormsModule,CommonModule],
   templateUrl: './contact.component.html',
   styleUrl: './contact.component.css',
 })

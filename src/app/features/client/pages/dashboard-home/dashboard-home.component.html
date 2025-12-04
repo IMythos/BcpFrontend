@@ -135,15 +135,19 @@
                     <p class="text-center py-3 text-gray-500 text-sm">No tienes cuentas activas.</p>
                 } @else {
                     @for (cuenta of dashboardData.cuentas; track cuenta.idCuenta) {
-                        <div class="p-3 border border-gray-200 rounded-lg bg-white hover:shadow-sm transition">
+                        <div 
+                          (click)="onSelectAccount(cuenta.idCuenta)"
+                          class="cursor-pointer group p-3 border border-gray-200 rounded-lg bg-white hover:shadow-md hover:border-orange-300 transition relative"
+                        >
                             <div class="flex justify-between items-center text-sm font-semibold">
                                 <span class="uppercase text-gray-700">{{ cuenta.tipo }} - {{ cuenta.idCuenta }}</span>
                                 <span class="font-bold" [ngClass]="getSaldoClass(cuenta.saldo)">
                                     {{ cuenta.saldo | currency:'PEN':'S/. ':'1.2-2' }}
                                 </span>
                             </div>
-                            <div class="text-xs text-gray-500 mt-1 flex justify-between">
+                            <div class="text-xs text-gray-500 mt-1 flex justify-between items-center">
                                 <span>Saldo disponible</span>
+                                <span class="text-orange-500 opacity-0 group-hover:opacity-100 transition-opacity text-[10px] font-bold">Ver detalle →</span>
                             </div>
                         </div>
                     }
@@ -244,4 +248,4 @@
       </div>
     </div>
   }
-</main>
+</main> 

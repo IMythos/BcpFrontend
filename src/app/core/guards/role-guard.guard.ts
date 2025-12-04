@@ -11,7 +11,7 @@ export const roleGuard: CanActivateFn = (route, state) => {
 
   const isDashboardRoute = route.url[0]?.path === 'dashboard';
 
-  if (!authService.isAuthenticated()) {
+  if (!authService.isAuthenticated$()) {
     return router.createUrlTree(isDashboardRoute ? ['/dashboard-login'] : ['/dashboard/client']);
   }
 

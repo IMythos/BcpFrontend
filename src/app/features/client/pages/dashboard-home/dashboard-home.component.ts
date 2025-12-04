@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, output } from '@angular/core';
 import { CommonModule, CurrencyPipe, DatePipe } from '@angular/common';
 import {
   LucideAngularModule,
@@ -25,14 +25,14 @@ import { ClientDataService } from '../../../../core/services/client-data.service
 import { LoadingService } from '../../../../core/services/loading.service';
 import { AccountService } from '../../../../core/services/account.service';
 import { AuthService } from '../../../../core/services/auth.service';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CuentaResponse } from '../../../../models/interfaces/response/cuenta.response';
 import { CrearCuentaRequest } from '../../../../models/interfaces/request/crear-cuenta.request';
 
 @Component({
   selector: 'app-dashboard-home',
   standalone: true,
-  imports: [CommonModule, LucideAngularModule, CurrencyPipe, DatePipe],
+  imports: [CommonModule, LucideAngularModule, CurrencyPipe, DatePipe,ReactiveFormsModule],
   templateUrl: './dashboard-home.component.html',
   styleUrl: './dashboard-home.component.css',
 })
@@ -46,6 +46,7 @@ export class DashboardHomeComponent implements OnInit {
   isLoadingAccounts = false;
   showCreateModal = false;
   isCreating = false;
+  viewAccountDetail = output<number>();
   createAccountForm: FormGroup = this.fb.group({
     tipo: ['AHORRO', [Validators.required]],
     saldo: [0, [Validators.required, Validators.min(0)]]
@@ -180,5 +181,7 @@ export class DashboardHomeComponent implements OnInit {
       },
     });
   }
-  
+  onSelectAccount(id: number) {
+    this.viewAccountDetail.emit(id);
+  }
 }

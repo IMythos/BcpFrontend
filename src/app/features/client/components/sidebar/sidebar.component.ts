@@ -1,10 +1,12 @@
 import { Component, EventEmitter, inject, Output, signal } from '@angular/core';
 import { AuthService } from '../../../../core/services/auth.service';
 import { Router, RouterModule } from '@angular/router';
-import { LucideIconData } from 'lucide-angular';
+import { ArrowRightLeft, HandCoins, LucideIconData } from 'lucide-angular';
 import { LucideAngularModule, UserRoundPen, Route, ClipboardMinus, PackagePlus, TicketCheck, LogOut, House  } from 'lucide-angular';
 import { CommonModule } from '@angular/common';
 import { DashboardHomeComponent } from '../../pages/dashboard-home/dashboard-home.component';
+import { TransferComponent } from '../../pages/transfer/transfer';
+import { LoanComponent } from '../../pages/loan/loan';
 
 export interface MenuItem {
   id: number;
@@ -25,7 +27,7 @@ export class SidebarComponent {
 
   public menuItems = signal<MenuItem[]>([]);
   public username = this.authService.userDisplayname$;
-  public role = this.authService.getUserRole();
+  public role = this.authService.getUserRole(); 
 
   @Output() selectComponent = new EventEmitter<any>();
 
@@ -36,11 +38,25 @@ export class SidebarComponent {
   public TicketCheckIcon = TicketCheck;
   public LogOutIcon = LogOut;
   public HouseIcon = House;
+  public ArrowRightLeftIcon = ArrowRightLeft;
+  public HandCoinsIcon = HandCoins;
 
   constructor() {
     if (this.role === 'CLIENTE') {
       this.menuItems.set([
-        { id: 1, icon: this.HouseIcon, label: 'Dashboard', component: DashboardHomeComponent },
+        { 
+          id: 1, 
+          icon: this.HouseIcon, 
+          label: 'Dashboard', 
+          component: DashboardHomeComponent 
+        },
+        { 
+          id: 2, 
+          icon: this.ArrowRightLeftIcon, 
+          label: 'Transferencias', 
+          component: TransferComponent 
+        },
+        { id: 3, icon: this.HandCoinsIcon, label: 'Préstamos', component: LoanComponent },
       ]);
     }
   }

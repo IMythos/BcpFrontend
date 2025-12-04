@@ -1,0 +1,172 @@
+<main class="w-full min-h-screen bg-gray-50 p-4 lg:p-8 flex justify-center">
+  
+  <div class="w-full max-w-2xl bg-white rounded-2xl shadow-xl overflow-hidden">
+    <div class="bg-orange-600 p-6 text-white flex items-center justify-between">
+      <div>
+        <h2 class="text-2xl font-bold flex items-center gap-2">
+          <lucide-icon [img]="ArrowIcon" size="28"></lucide-icon>
+          Transferencias
+        </h2>
+        <p class="text-orange-100 text-sm mt-1">Mueve tu dinero de forma segura</p>
+      </div>
+      <div class="flex items-center gap-2 text-sm font-medium bg-orange-700/50 px-3 py-1 rounded-full">
+        @if (currentStep === 'FORM') { <span>Paso 1: Datos</span> }
+        @else if (currentStep === 'OTP') { <span>Paso 2: Seguridad</span> }
+        @else { <span>Paso 3: ¡Listo!</span> }
+      </div>
+    </div>
+
+    <div class="p-6 sm:p-8">
+      
+      @if (errorMessage) {
+        <div class="mb-6 p-4 bg-red-50 border-l-4 border-red-500 text-red-700 rounded animate-fade-in-down">
+          <p class="font-bold">Error</p>
+          <p>{{ errorMessage }}</p>
+        </div>
+      }
+
+      @if (currentStep === 'FORM') {
+        <form [formGroup]="transferForm" (ngSubmit)="onInitiateTransfer()" class="space-y-6">
+          
+          <div>
+            <label class="block text-sm font-semibold text-gray-700 mb-2 flex items-center gap-2">
+              <lucide-icon [img]="CardIcon" size="18" class="text-orange-600"></lucide-icon> Desde la cuenta
+            </label>
+            <select formControlName="originAccountId" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 outline-none bg-white">
+              @for (acc of myAccounts; track acc.id) {
+                <option [value]="acc.id">
+                  {{ acc.tipo }} - {{ acc.numeroCuenta }} (Saldo: S/ {{ acc.saldo | number:'1.2-2' }})
+                </option>
+              }
+              @empty {
+                <option disabled>No tienes cuentas disponibles</option>
+              }
+            </select>
+          </div>
+
+          <div>
+            <label class="block text-sm font-semibold text-gray-700 mb-2 flex items-center gap-2">
+              <lucide-icon [img]="UserIcon" size="18" class="text-orange-600"></lucide-icon> Hacia la cuenta (ID)
+            </label>
+            <input 
+              type="text" 
+              formControlName="destinationAccountId" 
+              placeholder="Ingrese el ID de la cuenta destino"
+              class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 outline-none transition"
+              [class.border-red-500]="transferForm.get('destinationAccountId')?.invalid && transferForm.get('destinationAccountId')?.touched"
+            >
+             @if (transferForm.get('destinationAccountId')?.invalid && transferForm.get('destinationAccountId')?.touched) {
+              <p class="text-red-500 text-xs mt-1">Ingrese un ID numérico válido.</p>
+            }
+          </div>
+
+          <div>
+            <label class="block text-sm font-semibold text-gray-700 mb-2 flex items-center gap-2">
+              <lucide-icon [img]="MoneyIcon" size="18" class="text-orange-600"></lucide-icon> Monto a transferir
+            </label>
+            <div class="relative">
+              <span class="absolute left-3 top-3.5 text-gray-500 font-bold">S/</span>
+              <input 
+                type="number" 
+                formControlName="amount" 
+                placeholder="0.00"
+                class="w-full pl-10 p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 outline-none font-bold text-lg"
+              >
+            </div>
+          </div>
+
+          <button 
+            type="submit" 
+            [disabled]="transferForm.invalid || isLoading || myAccounts.length === 0"
+            class="w-full bg-orange-600 hover:bg-orange-700 text-white font-bold py-3.5 rounded-lg shadow-lg transition disabled:opacity-50 disabled:cursor-not-allowed flex justify-center items-center"
+          >
+            @if (isLoading) {
+              <svg class="animate-spin h-5 w-5 mr-3 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
+              Procesando...
+            } @else {
+              Continuar
+            }
+          </button>
+        </form>
+      }
+
+      @if (currentStep === 'OTP') {
+        <div class="text-center animate-fade-in-up">
+          <div class="w-20 h-20 bg-blue-50 text-blue-600 rounded-full flex items-center justify-center mx-auto mb-6">
+            <lucide-icon [img]="ShieldIcon" size="40"></lucide-icon>
+          </div>
+          
+          <h3 class="text-xl font-bold text-gray-800 mb-2">Validación de Seguridad</h3>
+          <p class="text-gray-600 mb-6">Hemos enviado un código OTP a su dispositivo seguro. (Para demo: revise la consola del backend o logs)</p>
+
+          <form [formGroup]="otpForm" (ngSubmit)="onConfirmOtp()">
+            <input 
+              type="text" 
+              formControlName="otpCode" 
+              placeholder="Ingrese código OTP"
+              class="w-48 text-center text-2xl tracking-widest p-3 border-2 border-gray-300 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none mb-6 uppercase"
+              maxlength="6"
+            >
+
+            <div class="flex gap-4">
+              <button 
+                type="button" 
+                (click)="currentStep = 'FORM'"
+                class="flex-1 py-3 border border-gray-300 text-gray-700 font-semibold rounded-lg hover:bg-gray-50 transition"
+              >
+                Cancelar
+              </button>
+              <button 
+                type="submit" 
+                [disabled]="otpForm.invalid || isLoading"
+                class="flex-1 py-3 bg-blue-600 text-white font-bold rounded-lg hover:bg-blue-700 shadow-lg transition disabled:opacity-50"
+              >
+                {{ isLoading ? 'Validando...' : 'Confirmar' }}
+              </button>
+            </div>
+          </form>
+        </div>
+      }
+
+      @if (currentStep === 'SUCCESS' && successComprobante) {
+        <div class="text-center animate-fade-in-up">
+          <div class="w-20 h-20 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto mb-6 animate-bounce-short">
+            <lucide-icon [img]="CheckIcon" size="40"></lucide-icon>
+          </div>
+
+          <h3 class="text-2xl font-bold text-gray-800 mb-2">¡Transferencia Exitosa!</h3>
+          <p class="text-gray-500 mb-8">La operación se ha procesado correctamente.</p>
+
+          <div class="bg-gray-50 p-6 rounded-xl border border-gray-200 text-left space-y-3 mb-8 relative overflow-hidden">
+            <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-orange-400 to-red-500"></div>
+
+            <div class="flex justify-between">
+              <span class="text-gray-500">Monto Transferido</span>
+              <span class="font-bold text-xl text-gray-800">{{ successComprobante.montoPagado | currency:'PEN':'S/. ':'1.2-2' }}</span>
+            </div>
+            <div class="flex justify-between">
+              <span class="text-gray-500">Fecha y Hora</span>
+              <span class="text-gray-800">{{ successComprobante.fecha | date:'medium' }}</span>
+            </div>
+            <div class="flex justify-between">
+              <span class="text-gray-500">Código de Operación</span>
+              <span class="font-mono text-gray-800">{{ successComprobante.codigoAutorizacion }}</span>
+            </div>
+            <div class="flex justify-between border-t pt-3 mt-3">
+              <span class="text-gray-500">Concepto</span>
+              <span class="text-gray-800 font-medium">Transferencia a Terceros</span>
+            </div>
+          </div>
+
+          <button 
+            (click)="resetProcess()"
+            class="w-full bg-orange-600 hover:bg-orange-700 text-white font-bold py-3.5 rounded-lg shadow-md transition"
+          >
+            Realizar otra operación
+          </button>
+        </div>
+      }
+
+    </div>
+  </div>
+</main>

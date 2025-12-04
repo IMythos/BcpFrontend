@@ -74,4 +74,10 @@ export class AuthService {
   public getCurrentUserDni(): string | null {
     return this._userDni() || localStorage.getItem('dni');
   }
+  public getUserRole(): string | null {
+    return this._userRole() || localStorage.getItem('tipoUsuario');
+  }
+  public getToken(): string | null {
+    return localStorage.getItem('token');
+  }
 }
